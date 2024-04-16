@@ -15,7 +15,7 @@ This Java program is designed to manage construction costs efficiently by readin
 The program is divided into three main classes:
 1. `RateReader`: Handles reading the material rates from a file.
 2. `Calculator`: Responsible for all cost calculations including adding GST.
-3. `MainApplication`: Manages user input and integrates all functionalities.
+3. `App`: Manages user input and integrates all functionalities.
 
 ### Detailed Class Descriptions
 
@@ -36,7 +36,7 @@ A utility class designed to take material rates and quantities and calculate the
 - Applies GST based on material-specific rates.
 - Rounds off the final cost to two decimal places ensuring financial accuracy.
 
-#### 3. MainApplication
+#### 3. App
 
 This is the main driver class that uses the `Scanner` class to take user inputs and integrates functionalities of `RateReader` and `Calculator`. It also reads the budget from the file and compares the calculated cost against this budget.
 
@@ -52,7 +52,7 @@ This is the main driver class that uses the `Scanner` class to take user inputs 
    - Compile the Java files using `javac *.java`.
 
 2. **Running the Program**:
-   - Run the `MainApplication` class using `java MainApplication`.
+   - Run the `App` class using `java App`.
    - Follow the on-screen prompts to input quantities for each material.
 
 ### File Format
@@ -98,29 +98,29 @@ Scanner scanner = new Scanner(new File(filePath));
 As it reads through the file line by line, it uses conditional checks combined with regular expressions to identify lines that contain rate information for the materials:
 
 ```java
-if (line.matches(".*Steel.*")) {
-    rates.add(Double.parseDouble(line.replaceAll("[^\\d.]", "")));
-} else if (line.matches(".*Concrete.*")) {
-    rates.add(Double.parseDouble(line.replaceAll("[^\\d.]", "")));
-} else if (line.matches(".*Glass.*")) {
-    rates.add(Double.parseDouble(line.replaceAll("[^\\d.]", "")));
-}
+            if (line.contains("Steel")) {
+                rates.add(Double.parseDouble(line.split("INR")[1].trim().replace(",", "").split(" ")[0]));
+            } else if (line.contains("Concrete")) {
+                rates.add(Double.parseDouble(line.split("INR")[1].trim().replace(",", "").split(" ")[0]));
+            } else if (line.contains("Glass")) {
+                rates.add(Double.parseDouble(line.split("INR")[1].trim().replace(",", "").split(" ")[0]));
+            }
 ```
 
 #### Regular Expressions
 
-The regular expressions used in these conditions are tailored to match the names of the materials (`Steel`, `Concrete`, `Glass`). Once a line containing one of these keywords is identified, another regular expression `[^\\d.]` is used. This pattern matches any character that is not a digit (`\\d`) or a period (`.`), effectively stripping the line of all non-numeric characters, leaving only the numeric value which represents the rate. This rate is then parsed into a `Double` and added to an `ArrayList<Double>`.
+The regular expressions used in these conditions are set to match the names of the materials (`Steel`, `Concrete`, `Glass`). Once a line containing one of these keywords is identified, another regular expression `[^\\d.]` is used. This pattern matches any character that is not a digit (`\\d`) or a period (`.`), effectively stripping the line of all non-numeric characters, leaving only the numeric value which represents the rate. This rate is then parsed into a `Double` and added to an `ArrayList<Double>`.
 
 #### Budget Extraction
 
-The budget is extracted similarly but is handled in the `MainApplication` class to separate concerns (rate reading and budget management):
+The budget is extracted similarly but is handled in the `App` class to separate concerns (rate reading and budget management):
 
 ```java
-String line = scanner.nextLine();
-if (line.startsWith("Budget:")) {
-    String budgetStr = line.split("INR")[1].trim().replaceAll(",", "");
-    return new BigDecimal(budgetStr);
-}
+            String line = scanner.nextLine();
+            if (line.startsWith("Budget:")) {
+                String budgetStr = line.split("INR")[1].trim().replaceAll(",", "");
+                return new BigDecimal(budgetStr);
+            }
 ```
 
 In this snippet:
