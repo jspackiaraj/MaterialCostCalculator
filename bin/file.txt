@@ -1,0 +1,15 @@
+Project: Bridge Construction
+Location: Vellore
+Start Date: 2021-06-15
+End Date: 2022-12-20
+Budget: INR50,00,000
+
+Materials:
+- Steel - INR 40000 per ton
+- Concrete - INR 25000 per ton
+- Glass - INR 2500 per sq.m
+
+Milestones:
+- Foundation: 2021-08-01
+- Structure: 2022-02-15
+- Finishing: 2022-11-10
